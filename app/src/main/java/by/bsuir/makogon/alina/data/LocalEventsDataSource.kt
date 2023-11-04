@@ -7,7 +7,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import java.util.UUID
@@ -76,40 +75,27 @@ internal class RoomEventDataSource(
     private val eventMapper: DbEventMapper)
     : LocalNasaEventDataSource {
 
-
-    private val _eventsFlow = MutableSharedFlow<Map<UUID, NasaEvent>>()
-
-    init {
-        flow {
-            delay(1000L)
-            val eventEntities = dao.getEventsEntities()
-            val events = eventMapper.fromEntityList(eventEntities)//тт
-            val eventsMap = events.associateBy { it.eventId }
-            emit(eventsMap)
-        }.emitAll(_eventsFlow)
+    override fun getNasaEvents(): Flow<List<NasaEvent>> {
+        val eventEntityFlow = dao.getEventsEntities()
+        return eventEntityFlow.map{ entityList->
+            entityList.map{ entity->
+                eventMapper.mapFromEntity(entity)
+            }
+        }
     }
 
-    override fun getNasaEvents(): Flow<List<NasaEvent>> = _eventsFlow.map { it.values.toList() }
-
-    override fun getNasaEvent(eventId: UUID): Flow<NasaEvent?> = _eventsFlow.map { eventMap ->
-        eventMap[eventId]
+    override fun getNasaEvent(eventId: UUID): Flow<NasaEvent?> {
+        val eventEntityFlow = dao.getEventEntity(eventId)
+        return eventEntityFlow.map { entity ->
+            entity?.let { eventMapper.mapFromEntity(it) }
+        }
     }
-
     override suspend fun upsertNasaEvent(event: NasaEvent) {
-        //первая строка должна быть убрана сразу после починки куска выше
-        val eventMap = _eventsFlow.replayCache.firstOrNull() ?: emptyMap()
-        val updatedEventMap = eventMap.toMutableMap()
-        updatedEventMap[event.eventId] = event
-        _eventsFlow.tryEmit(updatedEventMap)
         dao.upsertEventEntity(eventMapper.mapToEntity(event))
     }
 
     override suspend fun deleteNasaEvent(eventId: UUID) {
-        //первая строка должна быть убрана сразу после починки куска выше!!!
-        val eventMap = _eventsFlow.replayCache.firstOrNull() ?: emptyMap()
-        val updatedEventMap = eventMap.toMutableMap()
-        updatedEventMap.remove(eventId)
-        _eventsFlow.tryEmit(updatedEventMap)
         dao.deleteEventEntity(eventId)
     }
+
 }
