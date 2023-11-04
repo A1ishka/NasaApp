@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">NASA app</string>
+    <string name="about_app1">Satellites` photos</string>
+    <string name="about_app2">Cosmos films</string>
+    <string name="about_app3">Mission history</string>
+    <string name="about_app">About us</string>
+    <string name="about_app0">NASA application</string>
+    <string name="round_item_text1">Mercury</string>
+    <string name="round_item_text2">Venus</string>
+    <string name="round_item_text3">Mars</string>
+    <string name="round_item_text4">Jupiter</string>
+    <string name="round_item_text5">Saturn</string>
+    <string name="round_item_text6">Uranus</string>
+    <string name="round_item_text7">Neptune</string>
+    <string name="app_slogan"><![CDATA[Let\'s recognize the world!]]></string>
+    <string name="title_screen_1">Home</string>
+    <string name="title_screen_2">About</string>
+    <string name="title_screen_3">Settings</string>
+    <string name="title_screen_4">Screen 4</string>
+    <string name="rating">Rating</string>
+    <string name="your_top">Your top</string>
+    <string name="event_name">event_name</string>
+    <string name="date">date</string>
+    <string name="type">type</string>
+    <string name="description">description</string>
+    <string name="notes">notes</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Save</string>
+    <string name="no_events_in_your_top">no_events_in_your_top</string>
+
+    <string name="home_title">My NASA Events</string>
+    <string name="added_event_message">Added an event !</string>
+    <string name="error_message">An error has occurred</string>
+    <string name="edit_event_id_message">Editing event with id %1$s</string>
+</resources>
