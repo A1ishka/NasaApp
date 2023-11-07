@@ -3,10 +3,16 @@ plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
+val javaVersion = JavaVersion.VERSION_11
+val jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
 
+android.compileOptions {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
 android {
     namespace = "by.bsuir.makogon.alina.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -24,13 +30,13 @@ android {
             )
         }
     }
-    compileOptions {
+    /*compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
+    }*/
 }
 
 dependencies {

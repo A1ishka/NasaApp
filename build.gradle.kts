@@ -9,3 +9,12 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
 }
 true // Needed to make the Suppress annotation work for the plugins block
+
+
+allprojects{
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
+}

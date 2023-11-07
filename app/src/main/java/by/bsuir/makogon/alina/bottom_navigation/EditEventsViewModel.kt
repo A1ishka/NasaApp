@@ -59,17 +59,18 @@ class EditEventsViewModel(
         date: String,
         type: String,
         description: String,
-        notes: String
+        notes: String,
+        //eventId: UUID
     ) = viewModelScope.launch {
         loading.update { true }
         repo.upsertNasaEvent(
             NasaEvent(
+                eventId ?: UUID.randomUUID(),
                 name,
                 date,
                 type,
                 description,
-                notes,
-                eventId ?: UUID.randomUUID()
+                notes
             )
         )
         loading.update { false }

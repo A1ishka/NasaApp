@@ -4,13 +4,20 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
-    //id("io.ktor.plugin") version "2.3.4"
 }
 ksp {
     arg("room.schemaLocation", "$projectDir/schema")
     arg("room.incremental", "true")
     arg("room.expandProjection", "true")
 }
+val javaVersion = JavaVersion.VERSION_11
+val jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+
+android.compileOptions {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
 android {
     namespace = "by.bsuir.makogon.alina"
     compileSdk = 34
@@ -37,24 +44,19 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
             excludes += setOf(
                 "DebugProbesKt.bin",
                 "/META-INF/{AL2.0,LGPL2.1}",
+                "META-INF/INDEX.LIST",
+                "META-INF/io.netty.versions.properties"
                 //"/META-INF/versions/9/previous-compilation-data.bin"
             )
         }
@@ -68,6 +70,14 @@ android {
         }
     }
 }
+/*allprojects{
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = jvmTarget
+        }
+    }
+}*/
+
 dependencies {
     val room_version = "2.6.0"
     implementation("androidx.room:room-runtime:$room_version")
@@ -76,7 +86,8 @@ dependencies {
     // To use Kotlin annotation processing tool (kapt)
     //kapt("androidx.room:room-compiler:$room_version")
     // To use Kotlin Symbol Processing (KSP)
-    ksp("androidx.room:room-compiler:$room_version")
+    //ksp("androidx.room:room-compiler:$room_version")
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.9.10-1.0.13")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 

@@ -7,12 +7,14 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 val appModule = module {
-    includes(dataModule, domainModule)
+    single { AppDatabase(context = get()) }
+    single { get<AppDatabase>().eventDao() }
+    //includes(dataModule, domainModule)
 }
 
 val dataModule = module {
-    single { AppDatabase(context = get()) }
-    single { get<AppDatabase>().eventDao() }
+    //single { AppDatabase(context = get()) }
+    //single { get<AppDatabase>().eventDao() }
 }
 val domainModule = module {
 }

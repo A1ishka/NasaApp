@@ -7,10 +7,10 @@ import java.util.UUID
 @Entity
 data class EventEntity(
     @PrimaryKey val eventId: UUID,
-    val name: String? = null,
-    val date: String? = null,
+    val name: String,
+    val date: String,
     val type: String? = null,
-    val description: String? = null,
+    val description: String,
     val notes: String? = null
 ){
     internal companion object {
