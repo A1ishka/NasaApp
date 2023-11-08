@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -55,7 +55,6 @@ import kotlinx.coroutines.Job
 import java.util.UUID
 import kotlin.reflect.KFunction5
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditEventScreen(
     eventId: UUID?,
@@ -73,7 +72,6 @@ fun EditEventScreen(
         onSave = viewModel::onClickSave,
         onDelete = viewModel::onClickDelete,
     )
-
 }
 
 
@@ -89,8 +87,7 @@ private fun EditEventContent(
     ) {
         Box(
             modifier = Modifier
-                .defaultMinSize(minHeight = 400.dp)
-                .fillMaxWidth(),
+                .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
             when (state) {
@@ -125,8 +122,6 @@ private fun EditEventContent(
                         ),
                         modifier = Modifier.padding(12.dp)
                     )
-
-
                     //var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                     val calendar = Calendar.getInstance()
                     calendar.set(1990, 0, 22) // add year, month (Jan), date
@@ -166,9 +161,6 @@ private fun EditEventContent(
                             )
                         }
                     }
-
-
-
                     Column(
                         modifier = Modifier
                             .padding(5.dp)
@@ -202,7 +194,6 @@ private fun EditEventContent(
                             label = stringResource(R.string.date),
                             onlyNumbers = true
                         )
-
                         Spacer(modifier = Modifier.height(16.dp))
                         EventTextField(
                             value = type,
@@ -227,8 +218,6 @@ private fun EditEventContent(
                             label = stringResource(R.string.notes)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-
-
                         /*OutlinedTextField(
                             value = name,
                             onValueChange = { name = it },
@@ -291,7 +280,6 @@ fun BottomSheetContent(
     var description by remember { mutableStateOf(NasaEvent?.description ?: "") }
     var notes by remember { mutableStateOf(NasaEvent?.notes ?: "") }
 
-
     //var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
     val calendar = Calendar.getInstance()
     calendar.set(1990, 0, 22) // add year, month (Jan), date
@@ -331,9 +319,6 @@ fun BottomSheetContent(
             )
         }
     }
-
-
-
     Column(
         modifier = modifier
             .padding(5.dp)
@@ -394,6 +379,7 @@ fun BottomSheetContent(
         ) {
             Text(text = "Pick the Date")
         }
+        Spacer(modifier = Modifier.height(16.dp))
         /*DatePicker(
         state = state,
         modifier = Modifier.padding(16.dp)
@@ -415,6 +401,7 @@ fun BottomSheetContent(
             },
             label = stringResource(R.string.type)
         )
+        Spacer(modifier = Modifier.height(16.dp))
         EventTextField(
             value = description,
             onValueChange = { newValue ->

@@ -80,8 +80,13 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 koin-android = {group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
 koin-compose = {group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin"}
 koin-core = {group = "io.insert-koin", name = "koin-core", version.ref = "koin"}
-room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-runtime = {group="androidx.room", name = "room-runtime", version.ref="room"}
+room-compiler = {group="androidx.room", name = "room-compiler", version.ref="room"}
+room-ktx = {group="androidx.room", name = "room-ktx", version.ref="room"}
+room-paging = {group="androidx.room", name = "room-paging", version.ref="room"}
+room-rxjava2 = {group="androidx.room", name = "room-rxjava2", version.ref="room"}
+room-rxjava3 = {group="androidx.room", name = "room-rxjava3", version.ref="room"}
+room-guava = {group="androidx.room", name = "room-guava", version.ref="room"}
 play-services-mlkit-text-recognition-common = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition-common", version = "19.0.0" }
 firebase-inappmessaging-ktx = { group = "com.google.firebase", name = "firebase-inappmessaging-ktx", version = "20.3.5" }
 places = { group = "com.google.android.libraries.places", name = "places", version = "3.2.0" }

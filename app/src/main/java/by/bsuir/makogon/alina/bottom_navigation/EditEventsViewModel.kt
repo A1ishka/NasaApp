@@ -16,12 +16,12 @@ import java.util.UUID
 sealed interface EditEventState {
     data class Error(val e: Exception) : EditEventState
     data class EditingEvent(
-        val name: String,
-        val date: String,
-        val type: String,
-        val description: String,
-        val notes: String,
-        val eventId: UUID? = null,
+        val name: String? = null,
+        val date: String? = null,
+        val type: String? = null,
+        val description: String? = null,
+        val notes: String? = null,
+        val eventId: UUID? = UUID.randomUUID(),
         val saved: Boolean = false
     ) : EditEventState
 
@@ -48,7 +48,7 @@ class EditEventsViewModel(
             event?.type ?: "",
             event?.description ?: "",
             event?.notes ?: "",
-            event?.eventId ?: null,
+            event?.eventId ?: UUID.randomUUID(),
             saved
         )
     }

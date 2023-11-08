@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [EventEntity::class], version = 1)
+@Database(entities = [EventEntity::class], version = 1, exportSchema = false)
 @TypeConverters(UUIDConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun eventDao(): EventDao
+    abstract fun eventDao(): EventEntityDao
 }
 
 internal fun AppDatabase(context: Context) = Room.databaseBuilder( // билдер-функция

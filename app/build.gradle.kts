@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
+    kotlin("kapt")
 }
 ksp {
     arg("room.schemaLocation", "$projectDir/schema")
@@ -56,8 +57,8 @@ android {
                 "DebugProbesKt.bin",
                 "/META-INF/{AL2.0,LGPL2.1}",
                 "META-INF/INDEX.LIST",
-                "META-INF/io.netty.versions.properties"
-                //"/META-INF/versions/9/previous-compilation-data.bin"
+                "META-INF/io.netty.versions.properties",
+                "/META-INF/versions/9/previous-compilation-data.bin"
             )
         }
     }
@@ -82,7 +83,14 @@ dependencies {
     val room_version = "2.6.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-
+    implementation(libs.room.runtime)
+    annotationProcessor  (libs.room.compiler)
+    kapt(libs.room.compiler)
+    //ksp (libs.room.compiler)
+    implementation(libs.room.rxjava2)
+    implementation(libs.room.rxjava3)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
     // To use Kotlin annotation processing tool (kapt)
     //kapt("androidx.room:room-compiler:$room_version")
     // To use Kotlin Symbol Processing (KSP)
@@ -170,4 +178,6 @@ dependencies {
 
     implementation (project(":domain"))
     implementation (project(":data"))
+
+    kapt(libs.room.compiler)
 }

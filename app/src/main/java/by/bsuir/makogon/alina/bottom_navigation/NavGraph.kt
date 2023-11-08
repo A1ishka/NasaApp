@@ -20,7 +20,7 @@ fun NavGraph(
     navController: NavHostController,
     darkTheme: Boolean,
     onThemeUpdated: () -> Unit,
-    eventId: UUID?
+    eventId:UUID?=UUID.randomUUID()
 ) {
     NavHost(
         navController = navController,
@@ -46,17 +46,15 @@ fun NavGraph(
                     name = EVENT_ID_KEY
                 )
                 {
-                    type = NavType.LongType
-                    //nullable = true    //разобраться с этим
+                    type = NavType.StringType
                 }
             )
         ) {
-            EditEventScreen(navController = navController, eventId = eventId)
+         EditEventScreen(navController = navController, eventId = eventId)
         }
     }
 }
 
 object EventsNavGraphConstants {
     const val EVENT_ID_KEY = "eventId"
-    //const val EMPTY_ID = -1
 }

@@ -1,7 +1,7 @@
 package by.bsuir.makogon.alina.data
 
 import by.bsuir.makogon.alina.data.local.DbEventMapper
-import by.bsuir.makogon.alina.data.local.EventDao
+import by.bsuir.makogon.alina.data.local.EventEntityDao
 import by.bsuir.makogon.alina.domain.model.NasaEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -71,7 +71,7 @@ object InMemoryEventDatasource: LocalNasaEventDataSource {
 }
 
 internal class RoomEventDataSource(
-    private val dao: EventDao,
+    private val dao: EventEntityDao,
     private val eventMapper: DbEventMapper)
     : LocalNasaEventDataSource {
 

@@ -4,6 +4,7 @@ package by.bsuir.makogon.alina.bottom_navigation.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -89,9 +90,9 @@ fun MainScreen(darkTheme: Boolean, onThemeUpdated: () -> Unit) {
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.round_item_img_1),
+                        painter = painterResource(id = R.drawable.round_item_img_4),
                         contentDescription = "Header image",
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Fit
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -174,7 +175,11 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation {
+    BottomNavigation(
+        modifier = Modifier.background(MaterialTheme.colorScheme.inversePrimary),
+        backgroundColor = MaterialTheme.colorScheme.inverseOnSurface,
+        contentColor =  MaterialTheme.colorScheme.onSurface
+    ) {
         screens.forEach { screen ->
             AddItem(
                 screen = screen,

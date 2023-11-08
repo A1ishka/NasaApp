@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -23,7 +22,7 @@ fun Screen4() {
             text = "Screen4",
             fontSize = MaterialTheme.typography.h3.fontSize,
             fontWeight = FontWeight.Bold,
-            color = Color.Blue
+            color = androidx.compose.material3.MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 }
