@@ -1,8 +1,7 @@
-package by.bsuir.makogon.alina.bottom_navigation
+package by.bsuir.makogon.alina.events.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.bsuir.makogon.alina.data.manager.LocalUserManagerIml
 import by.bsuir.makogon.alina.domain.manager.LocalUserManager
 import by.bsuir.makogon.alina.domain.model.NasaEvent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +10,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.UUID
 
 sealed interface EditEventState {
@@ -28,11 +29,13 @@ sealed interface EditEventState {
     object Loading : EditEventState
 }
 
+//private val editEventsViewModel: EditEventsViewModel by viewModels()
+////private val localUserManager: LocalUserManager by inject()
 
 class EditEventsViewModel(
     private val eventId: UUID?,
-    private val repo: LocalUserManager = LocalUserManagerIml,
-) : ViewModel() {
+) : ViewModel(), KoinComponent {
+    private val repo: LocalUserManager by inject()
 
     private val saved = MutableStateFlow(false)
     private val loading = MutableStateFlow(false)

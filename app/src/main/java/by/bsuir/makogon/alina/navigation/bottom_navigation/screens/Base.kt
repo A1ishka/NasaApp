@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
-package by.bsuir.makogon.alina.bottom_navigation.screens
+package by.bsuir.makogon.alina.navigation.bottom_navigation.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -53,9 +53,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import by.bsuir.makogon.alina.R
-import by.bsuir.makogon.alina.bottom_navigation.BottomItem
-import by.bsuir.makogon.alina.bottom_navigation.NavGraph
-import by.bsuir.makogon.alina.bottom_navigation.NavItems
+import by.bsuir.makogon.alina.navigation.bottom_navigation.BottomItem
+import by.bsuir.makogon.alina.navigation.bottom_navigation.NavGraph
+import by.bsuir.makogon.alina.navigation.bottom_navigation.NavItems
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

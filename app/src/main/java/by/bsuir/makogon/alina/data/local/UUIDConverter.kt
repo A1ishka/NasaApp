@@ -10,7 +10,6 @@ class UUIDConverter {
 
     @TypeConverter
     fun toUUID(uuidString: String?): UUID? {
-        return if (uuidString.isNullOrEmpty()) null
-        else UUID.fromString(uuidString)
+        return UUID.fromString(uuidString)
     }
 }

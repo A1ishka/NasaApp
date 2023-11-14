@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina.bottom_navigation
+package by.bsuir.makogon.alina.navigation.bottom_navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add

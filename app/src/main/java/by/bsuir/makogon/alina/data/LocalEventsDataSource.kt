@@ -70,7 +70,7 @@ object InMemoryEventDatasource: LocalNasaEventDataSource {
     }
 }
 
-internal class RoomEventDataSource(
+class RoomEventDataSource(
     private val dao: EventEntityDao,
     private val eventMapper: DbEventMapper)
     : LocalNasaEventDataSource {
@@ -97,5 +97,12 @@ internal class RoomEventDataSource(
     override suspend fun deleteNasaEvent(eventId: UUID) {
         dao.deleteEventEntity(eventId)
     }
+    /*companion object {
+        fun createDefault(): RoomEventDataSource {
+            val dao = EventEntityDao
+            val eventMapper = DbEventMapper()
+            return RoomEventDataSource(dao, eventMapper)
+        }
+    }*/
 
 }

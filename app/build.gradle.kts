@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
-    kotlin("kapt")
+    //kotlin("kapt")
 }
 ksp {
     arg("room.schemaLocation", "$projectDir/schema")
@@ -84,27 +84,17 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation(libs.room.runtime)
-    annotationProcessor  (libs.room.compiler)
-    kapt(libs.room.compiler)
-    //ksp (libs.room.compiler)
-    implementation(libs.room.rxjava2)
-    implementation(libs.room.rxjava3)
+    annotationProcessor(libs.room.compiler)
+    ksp (libs.room.compiler)
+    //implementation(libs.room.rxjava2)
+    //implementation(libs.room.rxjava3)
+    //kapt(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
-    // To use Kotlin annotation processing tool (kapt)
-    //kapt("androidx.room:room-compiler:$room_version")
-    // To use Kotlin Symbol Processing (KSP)
-    //ksp("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.10-1.0.13")
-    // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
-
-    // optional - Guava support for Room, including Optional and ListenableFuture
-    //implementation("androidx.room:room-guava:$room_version")
-    // optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
-    // optional - Paging 3 Integration
-    //implementation("androidx.room:room-paging:$room_version")
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -163,21 +153,17 @@ dependencies {
     implementation(libs.room.runtime)
     var ktorVersion = "2.3.5"
     implementation("io.ktor:ktor-server-core:$ktorVersion")
-    //implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-server-host-common:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
+    //implementation("io.ktor:ktor-client-core:$ktorVersion")
     //implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:1.2.3")
-
     implementation("androidx.compose.runtime:runtime-livedata:1.5.2")
-    annotationProcessor(libs.room.compiler)
 
-    implementation (project(":domain"))
-    implementation (project(":data"))
-
-    kapt(libs.room.compiler)
+    implementation(project(":domain"))
+    implementation(project(":data"))
 }

@@ -1,8 +1,7 @@
-package by.bsuir.makogon.alina
+package by.bsuir.makogon.alina.events.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.bsuir.makogon.alina.data.manager.LocalUserManagerIml
 import by.bsuir.makogon.alina.domain.manager.LocalUserManager
 import by.bsuir.makogon.alina.domain.model.NasaEvent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,13 +12,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
+
 sealed interface HomeState {
     object Loading : HomeState
     data class DisplayingEvents(val events: List<NasaEvent>) : HomeState
     data class Error(val e: Exception) : HomeState
 }
 
-class HomeViewModel(private val repository: LocalUserManager = LocalUserManagerIml) : ViewModel() {
+////val repository: LocalUserManager = get() //юзаем, когда нужно жестко инджектить
+//val homeViewModel: HomeViewModel by getViewModel { parametersOf(repository) }
+
+class HomeViewModel(
+    private val repository: LocalUserManager
+) : ViewModel() {
+
     private val loading = MutableStateFlow(false)
 
     val state = combine(
@@ -37,17 +43,3 @@ class HomeViewModel(private val repository: LocalUserManager = LocalUserManagerI
     }
 
 }
-
-
-
-
-/*fun elementOnClick(route: String, navController: NavHostController) {
-    val prePreviousEntry = navController.previousBackStackEntry
-    navController.navigate(route = route) {
-        prePreviousEntry?.destination?.let {
-            popUpTo(it.id) {
-                inclusive = true
-            }
-        }
-    }
-}*/

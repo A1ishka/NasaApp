@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina.bottom_navigation.screens
+package by.bsuir.makogon.alina.navigation.bottom_navigation.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,20 +32,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import by.bsuir.makogon.alina.HomeState
-import by.bsuir.makogon.alina.HomeState.DisplayingEvents
-import by.bsuir.makogon.alina.HomeViewModel
+import by.bsuir.makogon.alina.events.home.HomeState
+import by.bsuir.makogon.alina.events.home.HomeState.DisplayingEvents
+import by.bsuir.makogon.alina.events.home.HomeViewModel
 import by.bsuir.makogon.alina.R
-import by.bsuir.makogon.alina.bottom_navigation.Route
+import by.bsuir.makogon.alina.navigation.bottom_navigation.Route
 import by.bsuir.makogon.alina.domain.model.NasaEvent
 import by.bsuir.makogon.alina.ui.theme.NasaTheme
+import org.koin.androidx.compose.getViewModel
 import java.util.UUID
 
 @Composable
 fun HomeScreen(controller: NavController) {
-    val viewModel = viewModel<HomeViewModel>()
+    val viewModel: HomeViewModel = getViewModel()//viewModel<HomeViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreenContent(
         state = state,
@@ -67,7 +67,7 @@ private fun HomeScreenContent(
             CenterAlignedTopAppBar(title = { Text(stringResource(R.string.home_title)) })
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onEdit(null) }) {
+            FloatingActionButton(onClick = { onEdit(UUID.randomUUID()) }) {//изменить сразу же, когда придет понимание
                 Icon(
                     modifier = Modifier.padding(bottom = 200.dp),
                     imageVector = Icons.Default.Add,
@@ -129,22 +129,26 @@ private fun EventItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(9f)) {
-                Text(
-                    text = event.name,
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(12.dp)
-                )
-                Text(
-                    text = event.description,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(12.dp)
-                )
+                event.name?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.headlineMedium,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(12.dp)
+                    )
+                }
+                event.description?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(12.dp)
+                    )
+                }
                 /*Text(
                     text = event.date,
                     style = MaterialTheme.typography.titleMedium,

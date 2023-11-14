@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina.bottom_navigation.screens
+package by.bsuir.makogon.alina.navigation.bottom_navigation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import by.bsuir.makogon.alina.bottom_navigation.ThemeSwitcher
+import by.bsuir.makogon.alina.navigation.bottom_navigation.ThemeSwitcher
 
 @Composable
 fun SettingsScreen(darkTheme: Boolean, onThemeUpdated: () -> Unit) {

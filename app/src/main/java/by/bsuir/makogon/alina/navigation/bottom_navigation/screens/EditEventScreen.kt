@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina.bottom_navigation.screens
+package by.bsuir.makogon.alina.navigation.bottom_navigation.screens
 
 import android.icu.util.Calendar
 import androidx.compose.animation.AnimatedVisibility
@@ -45,22 +45,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import by.bsuir.makogon.alina.R
-import by.bsuir.makogon.alina.bottom_navigation.EditEventState
-import by.bsuir.makogon.alina.bottom_navigation.EditEventsViewModel
 import by.bsuir.makogon.alina.domain.model.NasaEvent
+import by.bsuir.makogon.alina.events.edit.EditEventState
+import by.bsuir.makogon.alina.events.edit.EditEventsViewModel
 import kotlinx.coroutines.Job
+import org.koin.androidx.compose.getViewModel
 import java.util.UUID
 import kotlin.reflect.KFunction5
 
 @Composable
 fun EditEventScreen(
-    eventId: UUID?,
+    eventId: UUID?,//разобрать и мб убрать - ответсвтенность на вьюмодели
     navController: NavController,
 ) {
-    val viewModel = viewModel<EditEventsViewModel> { EditEventsViewModel(eventId) }
+    val viewModel: EditEventsViewModel = getViewModel()//viewModel<EditEventsViewModel> { EditEventsViewModel(eventId) }
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(state) {

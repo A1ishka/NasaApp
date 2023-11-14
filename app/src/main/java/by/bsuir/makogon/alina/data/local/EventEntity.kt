@@ -2,13 +2,12 @@ package by.bsuir.makogon.alina.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.jetbrains.annotations.NotNull
 import java.util.UUID
 
-@Entity
+//@Database(entities = [EventEntity::class], version = 2)
+@Entity(tableName = EventEntity.TableName)
 data class EventEntity(
     @PrimaryKey
-    @NotNull
     val eventId: UUID,
     val name: String? = null,
     val date: String? = null,
@@ -17,6 +16,6 @@ data class EventEntity(
     val notes: String? = null
 ){
     internal companion object {
-        const val TableName = "EventEntity" // <- удобно потом ссылаться будет
+        const val TableName = "EventEntity"
     }
 }

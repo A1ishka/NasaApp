@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 @Dao
-interface EventDao {
+interface EventEntityDao {
     @Query("SELECT * FROM ${EventEntity.TableName}")
     fun getEventsEntities(): Flow<List<EventEntity>>
 

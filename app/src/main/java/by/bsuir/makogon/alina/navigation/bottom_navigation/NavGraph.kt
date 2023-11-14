@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina.bottom_navigation
+package by.bsuir.makogon.alina.navigation.bottom_navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,12 +7,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import by.bsuir.makogon.alina.bottom_navigation.EventsNavGraphConstants.EVENT_ID_KEY
-import by.bsuir.makogon.alina.bottom_navigation.screens.AboutAppScreen
-import by.bsuir.makogon.alina.bottom_navigation.screens.EditEventScreen
-import by.bsuir.makogon.alina.bottom_navigation.screens.HomeScreen
-import by.bsuir.makogon.alina.bottom_navigation.screens.Screen4
-import by.bsuir.makogon.alina.bottom_navigation.screens.SettingsScreen
+import by.bsuir.makogon.alina.navigation.bottom_navigation.EventsNavGraphConstants.EVENT_ID_KEY
+import by.bsuir.makogon.alina.navigation.bottom_navigation.screens.AboutAppScreen
+import by.bsuir.makogon.alina.navigation.bottom_navigation.screens.EditEventScreen
+import by.bsuir.makogon.alina.navigation.bottom_navigation.screens.HomeScreen
+import by.bsuir.makogon.alina.navigation.bottom_navigation.screens.Screen4
+import by.bsuir.makogon.alina.navigation.bottom_navigation.screens.SettingsScreen
 import java.util.UUID
 
 @Composable

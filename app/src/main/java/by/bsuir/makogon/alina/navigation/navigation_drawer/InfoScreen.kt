@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina.navigation_drawer
+package by.bsuir.makogon.alina.navigation.navigation_drawer
 
 /**@Composable
 fun InfoScreen(item: ListItem) {

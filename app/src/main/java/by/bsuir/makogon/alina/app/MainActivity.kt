@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina
+package by.bsuir.makogon.alina.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,8 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import by.bsuir.makogon.alina.bottom_navigation.screens.MainScreen
+import by.bsuir.makogon.alina.navigation.bottom_navigation.screens.MainScreen
 import by.bsuir.makogon.alina.ui.theme.NasaTheme
+import org.koin.core.component.KoinComponent
 
 /*@OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -45,7 +46,7 @@ fun PagerComponent() {
 
 }*/
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), KoinComponent {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

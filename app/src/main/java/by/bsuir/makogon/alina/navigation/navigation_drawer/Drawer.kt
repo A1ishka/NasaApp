@@ -1,4 +1,4 @@
-package by.bsuir.makogon.alina.navigation_drawer
+package by.bsuir.makogon.alina.navigation.navigation_drawer
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

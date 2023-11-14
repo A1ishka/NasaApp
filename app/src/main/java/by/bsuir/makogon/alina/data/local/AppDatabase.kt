@@ -6,16 +6,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [EventEntity::class], version = 1, exportSchema = false)
+@Database(entities = [EventEntity::class], version = 1, exportSchema=true)
 @TypeConverters(UUIDConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun eventDao(): EventEntityDao
 }
 
-internal fun AppDatabase(context: Context) = Room.databaseBuilder( // билдер-функция
+internal fun AppDatabase(context: Context) = Room.databaseBuilder(
     context,
     AppDatabase::class.java,
-    "event_database" // ваше имя, расширение файла не нужно
+    "event_database"
 )
     .fallbackToDestructiveMigration()
     .build()
