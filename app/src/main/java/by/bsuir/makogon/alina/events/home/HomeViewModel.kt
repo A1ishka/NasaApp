@@ -19,7 +19,7 @@ sealed interface HomeState {
     data class Error(val e: Exception) : HomeState
 }
 
-////val repository: LocalUserManager = get() //юзаем, когда нужно жестко инджектить
+//val repository: LocalUserManager = get() //юзаем, когда нужно жестко инджектить на месте
 //val homeViewModel: HomeViewModel by getViewModel { parametersOf(repository) }
 
 class HomeViewModel(

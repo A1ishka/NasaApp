@@ -150,7 +150,6 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.koin.core)
-    implementation(libs.room.runtime)
     var ktorVersion = "2.3.5"
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-host-common:$ktorVersion")
@@ -163,7 +162,6 @@ dependencies {
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.2")
-
     implementation(project(":domain"))
     implementation(project(":data"))
 }

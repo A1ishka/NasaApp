@@ -97,8 +97,6 @@ fun NasaTheme(
       colorScheme = colors,
       content = content
     )*/
-
-
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

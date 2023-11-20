@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.UUID
 
-//@Database(entities = [EventEntity::class], version = 2)
 @Entity(tableName = EventEntity.TableName)
 data class EventEntity(
     @PrimaryKey

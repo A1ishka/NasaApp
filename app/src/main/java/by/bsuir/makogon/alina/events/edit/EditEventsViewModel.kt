@@ -30,7 +30,7 @@ sealed interface EditEventState {
 }
 
 //private val editEventsViewModel: EditEventsViewModel by viewModels()
-////private val localUserManager: LocalUserManager by inject()
+//private val localUserManager: LocalUserManager by inject()
 
 class EditEventsViewModel(
     private val eventId: UUID?,
@@ -47,7 +47,7 @@ class EditEventsViewModel(
     ) { event, saved, loading ->
         if (loading) EditEventState.Loading else EditEventState.EditingEvent(
             event?.name ?: "",
-            event?.date ?: "2023-10-21",//ocalDate.parse("2023.10.26"),
+            event?.date ?: "2023-10-21",
             event?.type ?: "",
             event?.description ?: "",
             event?.notes ?: "",
