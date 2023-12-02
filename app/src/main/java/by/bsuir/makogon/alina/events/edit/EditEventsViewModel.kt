@@ -7,6 +7,7 @@ import by.bsuir.makogon.alina.domain.model.NasaEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -32,16 +33,17 @@ sealed interface EditEventState {
 //private val editEventsViewModel: EditEventsViewModel by viewModels()
 //private val localUserManager: LocalUserManager by inject()
 
-class EditEventsViewModel(
-    private val eventId: UUID?,
-) : ViewModel(), KoinComponent {
+class EditEventsViewModel : ViewModel(), KoinComponent {
     private val repo: LocalUserManager by inject()
 
     private val saved = MutableStateFlow(false)
     private val loading = MutableStateFlow(false)
+    private val eventId: MutableStateFlow<UUID?> = MutableStateFlow(null)
 
     val state = combine(
-        repo.getNasaEvent(eventId),
+        eventId.flatMapLatest {
+            repo.getNasaEvent(it)
+        },
         saved,
         loading,
     ) { event, saved, loading ->
@@ -57,6 +59,10 @@ class EditEventsViewModel(
     }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), EditEventState.Loading)
 
+    fun setEventId(eventId: UUID?) {
+        this.eventId.value = eventId
+    }
+
     fun onClickSave(
         name: String,
         date: String,
@@ -68,7 +74,7 @@ class EditEventsViewModel(
         loading.update { true }
         repo.upsertNasaEvent(
             NasaEvent(
-                eventId ?: UUID.randomUUID(),
+                eventId.value ?: UUID.randomUUID(),
                 name,
                 date,
                 type,
@@ -82,7 +88,7 @@ class EditEventsViewModel(
 
     fun onClickDelete() = viewModelScope.launch {
         loading.update { true }
-        eventId?.let { repo.deleteNasaEvent(eventId) }
+        eventId.value?.let { repo.deleteNasaEvent(it) }
         loading.update { false }
         saved.update { true }
     }

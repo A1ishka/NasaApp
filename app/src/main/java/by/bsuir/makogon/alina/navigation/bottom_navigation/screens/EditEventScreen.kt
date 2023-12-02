@@ -57,10 +57,11 @@ import kotlin.reflect.KFunction5
 
 @Composable
 fun EditEventScreen(
-    eventId: UUID?,//разобрать и мб убрать - ответсвтенность на вьюмодели
+    eventId: UUID?,// Так как вьюмодель переживает экран то передавать данные нужно из экрана во вьюмодель при создании
     navController: NavController,
 ) {
     val viewModel: EditEventsViewModel = getViewModel()//viewModel<EditEventsViewModel> { EditEventsViewModel(eventId) }
+    viewModel.setEventId(eventId)
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(state) {

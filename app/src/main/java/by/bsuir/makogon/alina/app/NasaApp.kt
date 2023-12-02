@@ -25,10 +25,9 @@ val domainModule = module {
 }
 
 val appModule = module {
-    single<LocalUserManager> { LocalUserManagerIml(get()) }
     single { AppDatabase(context = get()).eventDao() }
-    single<LocalNasaEventDataSource> { RoomEventDataSource(get(), get()) }
-    single<EntityMapper<EventEntity, NasaEvent>> { DbEventMapper() }
+    single<LocalNasaEventDataSource> { RoomEventDataSource(get(), DbEventMapper()) }
+    single<LocalUserManager> { LocalUserManagerIml(get()) }
     includes(dataModule, domainModule, homeViewModelModule, editEventsViewModelModule)
 }
 
