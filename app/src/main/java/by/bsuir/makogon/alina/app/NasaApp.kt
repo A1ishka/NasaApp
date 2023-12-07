@@ -5,11 +5,8 @@ import by.bsuir.makogon.alina.data.LocalNasaEventDataSource
 import by.bsuir.makogon.alina.data.RoomEventDataSource
 import by.bsuir.makogon.alina.data.local.AppDatabase
 import by.bsuir.makogon.alina.data.local.DbEventMapper
-import by.bsuir.makogon.alina.data.local.EventEntity
-import by.bsuir.makogon.alina.data.manager.LocalUserManagerIml
+import by.bsuir.makogon.alina.data.manager.MockManagerImpl
 import by.bsuir.makogon.alina.domain.manager.LocalUserManager
-import by.bsuir.makogon.alina.domain.model.NasaEvent
-import by.bsuir.makogon.alina.domain.util.EntityMapper
 import by.bsuir.makogon.alina.events.edit.editEventsViewModelModule
 import by.bsuir.makogon.alina.events.home.homeViewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -27,7 +24,7 @@ val domainModule = module {
 val appModule = module {
     single { AppDatabase(context = get()).eventDao() }
     single<LocalNasaEventDataSource> { RoomEventDataSource(get(), DbEventMapper()) }
-    single<LocalUserManager> { LocalUserManagerIml(get()) }
+    single<LocalUserManager> { MockManagerImpl(get()) }
     includes(dataModule, domainModule, homeViewModelModule, editEventsViewModelModule)
 }
 

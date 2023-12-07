@@ -20,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -47,20 +46,19 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import by.bsuir.makogon.alina.R
-import by.bsuir.makogon.alina.domain.model.NasaEvent
+import by.bsuir.makogon.alina.events.edit.EditEventScreenEvents
 import by.bsuir.makogon.alina.events.edit.EditEventState
 import by.bsuir.makogon.alina.events.edit.EditEventsViewModel
-import kotlinx.coroutines.Job
 import org.koin.androidx.compose.getViewModel
 import java.util.UUID
-import kotlin.reflect.KFunction5
 
 @Composable
 fun EditEventScreen(
     eventId: UUID?,// Так как вьюмодель переживает экран то передавать данные нужно из экрана во вьюмодель при создании
     navController: NavController,
+    viewModel: EditEventsViewModel = getViewModel()
 ) {
-    val viewModel: EditEventsViewModel = getViewModel()//viewModel<EditEventsViewModel> { EditEventsViewModel(eventId) }
+//    val viewModel: EditEventsViewModel = getViewModel()//viewModel<EditEventsViewModel> { EditEventsViewModel(eventId) }
     viewModel.setEventId(eventId)
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -70,8 +68,9 @@ fun EditEventScreen(
 
     EditEventContent(
         state = state,
-        onSave = viewModel::onClickSave,
-        onDelete = viewModel::onClickDelete,
+        onSave = viewModel::onEvent,
+        onDelete = viewModel::onEvent,
+        viewModel = viewModel
     )
 }
 
@@ -80,8 +79,9 @@ fun EditEventScreen(
 @Composable
 private fun EditEventContent(
     state: EditEventState,
-    onSave: KFunction5<String, String, String, String, String, Job>,
-    onDelete: () -> Unit,
+    onSave: (EditEventScreenEvents) -> Unit,
+    onDelete: (EditEventScreenEvents) -> Unit,
+    viewModel: EditEventsViewModel = getViewModel()
 ) {
     Surface(
         modifier = Modifier
@@ -102,20 +102,15 @@ private fun EditEventContent(
                     verticalArrangement = Arrangement.SpaceAround,
                     modifier = Modifier.matchParentSize()
                 ) {
-
-                    var name by remember(state.name) { mutableStateOf(state?.name ?: "") }
-                    var date by remember(state.date) {
-                        mutableStateOf(
-                            state.date/*?.toString() */?: ""
-                        )
-                    }
-                    var type by remember(state.type) { mutableStateOf(state.type ?: "") }
-                    var description by remember(state.description) {
-                        mutableStateOf(
-                            state.description ?: ""
-                        )
-                    }
-                    var notes by remember(state.notes) { mutableStateOf(state.notes ?: "") }
+                    //var name by remember(state.name) { mutableStateOf(state?.name ?: "") }
+                    //по такому примеру все данные для EventTextField были переписаны
+//                    val eventData = EventData(
+//                        name = state.name,
+//                        date = state.date,
+//                        type = state.type,
+//                        description = state.description,
+//                        notes = state.notes
+//                    )
                     androidx.compose.material3.Text(
                         text = stringResource(
                             id = R.string.edit_event_id_message,
@@ -123,9 +118,8 @@ private fun EditEventContent(
                         ),
                         modifier = Modifier.padding(12.dp)
                     )
-                    //var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                     val calendar = Calendar.getInstance()
-                    calendar.set(1990, 0, 22) // add year, month (Jan), date
+                    calendar.set(2023, 10, 20)
                     val datePickerState =
                         rememberDatePickerState(initialSelectedDateMillis = calendar.timeInMillis)
 
@@ -170,15 +164,15 @@ private fun EditEventContent(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         EventTextField(
-                            value = name,
+                            value = state.name ?: "",
                             onValueChange = { newValue ->
-                                name = newValue
+                                viewModel.changeName(newValue)
                             },
                             label = stringResource(R.string.event_name)
                         )
                         Button(
                             onClick = {
-                                showDatePicker = true
+                                showDatePicker = true //перенести логику во вьюмодель
                             }
                         ) {
                             Text(text = "Pick the Date")
@@ -188,45 +182,37 @@ private fun EditEventContent(
                             modifier = Modifier.padding(16.dp)
                         )*/
                         EventTextField(
-                            value = date,
+                            value = state.date ?: "",
                             onValueChange = { newValue ->
-                                date = newValue
+                                viewModel.changeDate(newValue)
                             },
                             label = stringResource(R.string.date),
                             onlyNumbers = true
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         EventTextField(
-                            value = type,
+                            value = state.type ?: "",
                             onValueChange = { newValue ->
-                                type = newValue
+                                viewModel.changeType(newValue)
                             },
                             label = stringResource(R.string.type)
                         )
                         EventTextField(
-                            value = description,
+                            value = state.description ?: "",
                             onValueChange = { newValue ->
-                                description = newValue
+                                viewModel.changeDescription(newValue)
                             },
                             label = stringResource(R.string.description)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         EventTextField(
-                            value = notes,
+                            value = state.notes?: "",
                             onValueChange = { newValue ->
-                                notes = newValue
+                                viewModel.changeNotes(newValue)
                             },
                             label = stringResource(R.string.notes)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        /*OutlinedTextField(
-                            value = name,
-                            onValueChange = { name = it },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            singleLine = true,
-                        )*/
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
@@ -234,7 +220,7 @@ private fun EditEventContent(
                         ) {
                             AnimatedVisibility(visible = state.eventId != null) {
                                 FloatingActionButton(
-                                    onClick = onDelete,
+                                    onClick = { onDelete(EditEventScreenEvents.DeleteEvent) },
                                     modifier = Modifier.padding(24.dp)
                                 ) {
                                     Icon(
@@ -244,7 +230,9 @@ private fun EditEventContent(
                                 }
                             }
                             FloatingActionButton(
-                                onClick = { onSave(name, date/*LocalDate.parse(date)*/, type, description, notes) },
+                                onClick = {
+                                    onSave(EditEventScreenEvents.SaveEvent)
+                                },
                                 modifier = Modifier.padding(24.dp)
                             ) {
                                 Icon(
@@ -259,14 +247,36 @@ private fun EditEventContent(
         }
     }
 }
-/*
-@Composable
-@Preview(name = "EditCatScreen", showSystemUi = false, showBackground = true)
-private fun EditCatScreenPreview() = KittenTrackerTheme {
-    EditCatContent(EditCatState.EditingCat("Cat", null), {}, { })
-}
-*/
 
+@Composable
+fun EventTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    onlyNumbers: Boolean = false
+) {
+    TextField(
+        value = value,
+        onValueChange = { onValueChange(it) },
+        label = { androidx.compose.material3.Text(label) },
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurface,
+            unfocusedLabelColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
+            focusedLabelColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
+            focusedContainerColor = androidx.compose.material3.MaterialTheme.colorScheme.onTertiaryContainer,
+            focusedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
+            unfocusedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.background
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType =
+            if (onlyNumbers) KeyboardType.Number else KeyboardType.Text
+        )
+
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheetContent(
@@ -276,14 +286,14 @@ fun BottomSheetContent(
     NasaEvent: NasaEvent?
 ) {
     var name by remember { mutableStateOf(NasaEvent?.name ?: "") }
-    var date by remember { mutableStateOf(NasaEvent?.date?.toString() ?: "") }
+    var date by remember { mutableStateOf(NasaEvent?.date ?: "") }
     var type by remember { mutableStateOf(NasaEvent?.type ?: "") }
     var description by remember { mutableStateOf(NasaEvent?.description ?: "") }
     var notes by remember { mutableStateOf(NasaEvent?.notes ?: "") }
 
     //var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
     val calendar = Calendar.getInstance()
-    calendar.set(1990, 0, 22) // add year, month (Jan), date
+    calendar.set(2020, 5, 22)
     val datePickerState =
         rememberDatePickerState(initialSelectedDateMillis = calendar.timeInMillis)
 
@@ -348,7 +358,7 @@ fun BottomSheetContent(
                         onConfirmClick(
                             NasaEvent(
                                 name = name,
-                                date = date,//LocalDate.parse(selectedDate.toString()/*, formatter*/),
+                                date = date,
                                 type = type,
                                 description = description,
                                 notes = notes
@@ -421,51 +431,11 @@ fun BottomSheetContent(
         Spacer(modifier = Modifier.height(16.dp))
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun EventTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    onlyNumbers: Boolean = false
-) {
-    TextField(
-        value = value,
-        onValueChange = { onValueChange(it) },
-        label = { androidx.compose.material3.Text(label) },
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurface,
-            unfocusedLabelColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
-            focusedLabelColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
-            focusedContainerColor = androidx.compose.material3.MaterialTheme.colorScheme.onTertiaryContainer,
-            focusedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
-            unfocusedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.background
-        ),
-        keyboardOptions = KeyboardOptions(
-            keyboardType =
-            if (onlyNumbers) KeyboardType.Number else KeyboardType.Text
-        )
-
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-}
-
-/*@Composable
-fun ListFab(
-    onFabClicked: () -> Unit
-) {
-    FloatingActionButton(onClick = onFabClicked) {
-        Icon(
-            imageVector = Icons.Filled.Add,
-            contentDescription = "Add event-notes button"
-        )
-
-    }
-}*/
+*/
 /*
 @Composable
 @Preview
 fun EditEventScreenPreview() {
     EditEventScreen()
 }*/
+
